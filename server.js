@@ -3,6 +3,7 @@ const express = require("express");
 const bodyParser = require("body-parser")
 const app = express();
 const loginRouter = require("./app/routes/login")
+const productRouter = require("./app/routes/product")
 
 app.use(
   bodyParser.urlencoded({
@@ -19,6 +20,7 @@ app.use(
 
 //Router Configuration
 app.use("/", loginRouter);
+app.use("/products", productRouter);
 
 (async () => {
   app.listen(process.env.SERVER_PORT, process.env.SERVER_HOST, function () {
