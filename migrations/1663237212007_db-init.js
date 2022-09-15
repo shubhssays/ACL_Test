@@ -140,5 +140,6 @@ drop table if exists permissions;
 drop table if exists users_role;
 drop table if exists role;
 drop table if exists users;
+DROP PROCEDURE IF exists create_user;
 `);
 };

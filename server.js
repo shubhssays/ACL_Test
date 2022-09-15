@@ -2,6 +2,7 @@ require("dotenv").config();
 const express = require("express");
 const bodyParser = require("body-parser")
 const app = express();
+const loginRouter = require("./app/routes/login")
 
 app.use(
   bodyParser.urlencoded({
@@ -15,6 +16,9 @@ app.use(
     extended: false,
   })
 );
+
+//Router Configuration
+app.use("/", loginRouter);
 
 (async () => {
   app.listen(process.env.SERVER_PORT, process.env.SERVER_HOST, function () {

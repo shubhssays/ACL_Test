@@ -1,6 +1,7 @@
-const pool = require("../../config/dbConnection");
+const { pool }  = require("../../config/dbConnection");
 
 module.exports = class Users {
+
   static _table_users = "users";
   static _table_role = "role";
   static _table_permissions = "permissions";
@@ -25,11 +26,12 @@ module.exports = class Users {
     return pool.query(statement);
   }
 
-  static createUser({ username,fullname='',password,role_name }) {
+  static createUser({ username,fullname='',hash,role_name }) {
+    console.log("pool",pool)
     const statement = {
       text: 
       `call create_user($1,$2,$3,$4);`,
-      values: [username,fullname,password,role_name],
+      values: [username,fullname,hash,role_name],
     };
     return pool.query(statement);
   }

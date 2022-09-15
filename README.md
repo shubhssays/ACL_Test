@@ -7,4 +7,4 @@
 
 -- please replace DB_PASSWORD FROM YOUR database password in below string.
 
-DATABASE_URL=postgres://postgres:DB_PASSWORD@localhost:5432/question_bank npm run migrate up
+DATABASE_URL=postgres://postgres:DB_PASSWORD@localhost:5432/acl npm run migrate up
