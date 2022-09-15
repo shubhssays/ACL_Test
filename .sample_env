@@ -1,0 +1,10 @@
+SERVER_HOST=localhost
+SERVER_PORT=3000
+
+PG_HOST=localhost
+PG_USER=postgres
+PG_DB=acl
+PG_PORT=5432
+PG_PASSWORD=your_password
+
+JWT_SECRET=sshhhhhhhhhhhhhhh

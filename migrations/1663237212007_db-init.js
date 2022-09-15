@@ -10,7 +10,6 @@ exports.up = (pgm) => {
     fullname VARCHAR(255) NULL,
     password VARCHAR(255),
     active BIT(1) DEFAULT '1' NOT NULL,
-    enabled BIT(1) DEFAULT '1' NOT NULL,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     updated_at TIMESTAMP WITH TIME ZONE,
     created_by VARCHAR(255) NOT NULL,
@@ -23,7 +22,6 @@ exports.up = (pgm) => {
     id serial primary key,
     role_name VARCHAR(255) NULL,
     active BIT(1) DEFAULT '1' NOT NULL,
-    enabled BIT(1) DEFAULT '1' NOT NULL,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     updated_at TIMESTAMP WITH TIME ZONE,
     created_by VARCHAR(255) NOT NULL,
@@ -42,7 +40,6 @@ CREATE TABLE IF NOT EXISTS permissions (
     id serial primary key,
     permission_name VARCHAR(255) NULL,
     active BIT(1) DEFAULT '1' NOT NULL,
-    enabled BIT(1) DEFAULT '1' NOT NULL,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     updated_at TIMESTAMP WITH TIME ZONE,
     created_by VARCHAR(255) NOT NULL,
@@ -61,7 +58,6 @@ CREATE TABLE IF NOT EXISTS role_permissions (
     permission_id INTEGER NOT NULL REFERENCES permissions(id) ON DELETE RESTRICT,
     role_id INTEGER NOT NULL REFERENCES role(id) ON DELETE RESTRICT,
     active BIT(1) DEFAULT '1' NOT NULL,
-    enabled BIT(1) DEFAULT '1' NOT NULL,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     updated_at TIMESTAMP WITH TIME ZONE,
     created_by VARCHAR(255) NOT NULL,
@@ -93,7 +89,6 @@ insert into role_permissions (permission_id,role_id,created_by) values (4,4,'DEF
     username VARCHAR(255) NOT NULL REFERENCES users(username) ON DELETE RESTRICT,
     role_id INTEGER NOT NULL REFERENCES role(id) ON DELETE RESTRICT,
     active BIT(1) DEFAULT '1' NOT NULL,
-    enabled BIT(1) DEFAULT '1' NOT NULL,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     updated_at TIMESTAMP WITH TIME ZONE,
     created_by VARCHAR(255) NOT NULL,
@@ -108,12 +103,31 @@ insert into role_permissions (permission_id,role_id,created_by) values (4,4,'DEF
     price INTEGER NOT NULL,
     quantity INTEGER NULL,
     active BIT(1) DEFAULT '1' NOT NULL,
-    enabled BIT(1) DEFAULT '1' NOT NULL,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     updated_at TIMESTAMP WITH TIME ZONE,
     created_by VARCHAR(255) NOT NULL,
     modified_by VARCHAR(255)
  );
+
+
+ CREATE OR REPLACE PROCEDURE create_user(IN _username varchar(255),IN _fullname varchar(255),in _password varchar(255), in _role varchar(255))
+     LANGUAGE plpgsql
+    AS $procedure$  
+    declare _role_id INTEGER DEFAULT 0;
+           BEGIN  
+                  insert into users (username,fullname,password,created_by) values (_username,_fullname,_password,'API');
+                  select id into  _role_id from role where role_name = _role;
+                  IF _role_id = 1 THEN 
+                     insert into users_role (username,role_id,created_by) values (_username,1,'API');  
+                  ELSIF _role_id = 2 THEN  
+                     insert into users_role (username,role_id,created_by) values (_username,2,'API');
+                  ELSIF _role_id = 3 then
+                     insert into users_role (username,role_id,created_by) values (_username,3,'API');
+                  ELSE  
+                     insert into users_role (username,role_id,created_by) values (_username,4,'API');
+                  END IF;  
+           END  
+           $procedure$;
  
   `);
 };
