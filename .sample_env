@@ -2,9 +2,10 @@ SERVER_HOST=localhost
 SERVER_PORT=3000
 
 PG_HOST=localhost
-PG_USER=postgres
+PG_USERNAME=postgres
 PG_DB=acl
 PG_PORT=5432
-PG_PASSWORD=your_password
+PG_PASSWORD=shubhs
 
 JWT_SECRET=sshhhhhhhhhhhhhhh
+JWT_EXPIRES_IN_HOURS=24
